@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Sistema de Consórcio</title>
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+</head>
+<body>
+<div class="container">
+    <h1>🏠 Sistema de Gestão de Consórcios</h1>
+    <div class="menu">
+        <a href="/">🏠 Início</a>
+        <a href="/clientes">👤 Clientes</a>
+        <a href="/veiculos">🚗 Veículos</a>
+        <a href="/grupos">📋 Grupos</a>
+        <a href="/cotas">💰 Cotas</a>
+    </div>
+    <img
+        src="{{ url_for('static', filename='Banner.jpg') }}"
+        class="banner"
+        alt="Banner"
+    >
+    <div class="cards">
+        <div class="card">
+            <h2>👤</h2>
+            <h3>Clientes</h3>
+            <p>{{ estatisticas.clientes }}</p>
+        </div>
+        <div class="card">
+            <h2>🚗</h2>
+            <h3>Veículos</h3>
+            <p>{{ estatisticas.veiculos }}</p>
+        </div>
+        <div class="card">
+            <h2>📋</h2>
+            <h3>Grupos</h3>
+            <p>{{ estatisticas.grupos }}</p>
+        </div>
+        <div class="card">
+            <h2>💰</h2>
+            <h3>Cotas</h3>
+            <p>{{ estatisticas.cotas }}</p>
+        </div>
+    </div>
+    <div class="card-box">
+        <h2>📊 Resumo do Sistema</h2>
+        <p>
+            Bem-vindo ao Sistema de Gestão de Consórcios.
+        </p>
+        <p>
+            Utilize os menus acima para gerenciar clientes,
+            veículos, grupos e cotas.
+        </p>
+    </div>
+</div>
+<footer>
+    Sistema de Gestão de Consórcios • 2026
+</footer>
+</body>
+</html>
