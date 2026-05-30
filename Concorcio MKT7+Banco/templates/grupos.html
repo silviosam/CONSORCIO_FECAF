@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Grupos</title>
+    <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='style.css') }}"
+    >
+</head>
+<body>
+<div class="container">
+    <h1>📋 Gestão de Grupos</h1>
+    <div class="menu">
+        <a href="/">🏠 Início</a>
+        <a href="/clientes">👤 Clientes</a>
+        <a href="/veiculos">🚗 Veículos</a>
+        <a href="/grupos">📋 Grupos</a>
+        <a href="/cotas">💰 Cotas</a>
+    </div>
+    {% with mensagens = get_flashed_messages() %}
+        {% if mensagens %}
+            {% for mensagem in mensagens %}
+                <div class="mensagem">
+                    {{ mensagem }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <div class="card-box">
+        <h2>➕ Criar Grupo de Consórcio</h2>
+        <form
+        action="/criar_grupo"
+        method="POST"
+        >
+            <label>Nome do Grupo</label>
+            <input
+            type="text"
+            name="nome"
+            placeholder="Digite o nome do grupo"
+            required
+            >
+            <label>Veículo</label>
+            <select
+            name="veiculo_id"
+            required
+            >
+                <option value="">
+                    Selecione um veículo
+                </option>
+                {% for veiculo in veiculos %}
+                <option value="{{ veiculo.id }}">
+                    {{ veiculo.marca }} {{ veiculo.modelo }}
+                </option>
+                {% endfor %}
+            </select>
+            <label>Quantidade de Cotas</label>
+            <input
+            type="number"
+            name="quantidade_cotas"
+            placeholder="Ex: 100"
+            min="10"
+            max="500"
+            required
+            >
+            <label>Quantidade de Parcelas</label>
+            <input
+            type="number"
+            name="prazo_meses"
+            placeholder="Ex: 60"
+            required
+            >
+            <button type="submit">
+                Criar Grupo
+            </button>
+        </form>
+    </div>
+    <div class="card-box">
+        <h2>📋 Grupos Cadastrados</h2>
+        {% if grupos %}
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Grupo</th>
+                <th>Cotas</th>
+                <th>Parcelas</th>
+                <th>Taxa</th>
+                <th>Valor do Crédito</th>
+                <th>Ações</th>
+            </tr>
+            {% for grupo in grupos %}
+            <tr>
+                <td>{{ grupo.id }}</td>
+                <td>{{ grupo.nome }}</td>
+                <td>{{ grupo.quantidade_cotas }}</td>
+                <td>{{ grupo.parcelas }}</td>
+                <td>{{ grupo.taxa }}%</td>
+                <td>
+                    R$ {{ "%.2f"|format(grupo.valor_credito) }}
+                </td>
+                <td>
+                <form action="/excluir_grupo/{{ grupo.id }}" method="POST">
+                    <button class="btn-excluir">
+                        🗑️ Excluir
+                    </button>
+                </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+        <p style="text-align:center;">
+            Nenhum grupo cadastrado.
+        </p>
+        {% endif %}
+    </div>
+    <div class="card-box">
+        <h2>📊 Regras de Taxa Administrativa</h2>
+        <table>
+            <tr>
+                <th>Quantidade de Parcelas</th>
+                <th>Taxa Administrativa</th>
+            </tr>
+            <tr>
+                <td>Até 36 parcelas</td>
+                <td>10%</td>
+            </tr>
+            <tr>
+                <td>37 até 60 parcelas</td>
+                <td>15%</td>
+            </tr>
+            <tr>
+                <td>61 até 80 parcelas</td>
+                <td>18%</td>
+            </tr>
+            <tr>
+                <td>81 até 100 parcelas</td>
+                <td>22%</td>
+            </tr>
+            <tr>
+                <td>Acima de 100 parcelas</td>
+                <td>25%</td>
+            </tr>
+        </table>
+    </div>
+    <div class="card-box">
+        <h2>📈 Informações do Sistema</h2>
+        <p>
+            Os grupos representam os planos de consórcio disponíveis
+            para venda de cotas.
+        </p>
+        <p>
+            Cada grupo possui um veículo vinculado, quantidade de
+            participantes e prazo de pagamento.
+        </p>
+        <p>
+            A taxa administrativa é calculada automaticamente
+            conforme a quantidade de parcelas escolhida.
+        </p>
+    </div>
+</div>
+<footer>
+    Sistema de Gestão de Consórcios • Projeto Acadêmico • 2026
+</footer>
+</body>
+</html>
